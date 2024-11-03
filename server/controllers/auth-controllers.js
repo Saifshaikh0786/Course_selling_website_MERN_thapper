@@ -1,6 +1,8 @@
 const User=require("../models/user-models");
 const bcrypt=require("bcryptjs");
 const signinSchema=require("../validator/signin-zod");
+const ConatctSchema = require("../validator/conatct-zod");
+const Contact = require("../models/contact-Schema");
 
 
 // everything will be done here   
@@ -85,8 +87,17 @@ const signin=async(req,res)=>{
 
 const contact=async(req,res)=>{
     try {
-        res.send("this is the contact [page called by router to the controlllers");
-    } catch (error) {
+
+        const {username,email,message}=req.body;
+
+        const newcontact=await Contact.create({username,email,message});
+        return res.json({message:newcontact});
+        
+
+        // res.send("this is the contact [page called by router to the controlllers");
+    } 
+    
+    catch (error) {
         res.send("contact page not found ");
     }
 }
